@@ -1,9 +1,11 @@
 require 'sinatra'
+if development?
+  require 'sinatra/reloader'
+end
 
-class Caesar
   def caesar_cipher(string, shift)
     ciphered = ""
-    string.each_char do |letter|
+    string.to_a.each do |letter|
        letter = letter.ord
        if (65..90) === letter
          letter = 65 + (letter - 65 + shift) % 26
@@ -16,12 +18,17 @@ class Caesar
        ciphered << letter.chr
 
     end
-    p ciphered;
+    return ciphered;
   end
 
+
+
+
+
+get '/' do
+  @shift = params['shift']
+  @string = caesar_cipher(params['string'], @shift.to_i)
+  erb :index, :locals => {:string => @string, :shift => @shift }
 end
 
-caesar = Caesar.new
 
-
-puts caesar.caesar_cipher("My name is Sean", +1) == "Nz obnf jt Tfbo"
