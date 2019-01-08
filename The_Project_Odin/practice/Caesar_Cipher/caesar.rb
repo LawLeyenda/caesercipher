@@ -1,7 +1,8 @@
 require 'sinatra'
 
+if development?
   require 'sinatra/reloader'
-
+end
 
 
 get '/' do
@@ -12,7 +13,7 @@ end
 
   def caesar_cipher(string, shift)
     ciphered = ""
-    string.to_a.each do |letter|
+    string.each_char do |letter|
        letter = letter.ord
        if (65..90) === letter
          letter = 65 + (letter - 65 + shift) % 26
@@ -23,7 +24,6 @@ end
 
        end
        ciphered << letter.chr
-
     end
     return ciphered;
   end
