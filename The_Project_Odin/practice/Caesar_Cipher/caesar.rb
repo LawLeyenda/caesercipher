@@ -1,6 +1,13 @@
 require 'sinatra'
-if development?
+
   require 'sinatra/reloader'
+
+
+
+get '/' do
+  @shift = params['shift']
+  @string = caesar_cipher(params['string'], @shift.to_i)
+  erb :index, :locals => {:string => @string, :shift => @shift }
 end
 
   def caesar_cipher(string, shift)
@@ -25,10 +32,5 @@ end
 
 
 
-get '/' do
-  @shift = params['shift']
-  @string = caesar_cipher(params['string'], @shift.to_i)
-  erb :index, :locals => {:string => @string, :shift => @shift }
-end
 
 
